@@ -1,0 +1,8 @@
+---
+- name: db-add-missing-indices
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/occ db:add-missing-indices"
+
+- name: db-convert-filecache-bigint
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/occ db:convert-filecache-bigint"

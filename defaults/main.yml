@@ -1,0 +1,4 @@
+---
+nextcloud_path: '/var/www/cloud/htdocs'
+nextcloud_fcgi_user: 'cloud'
+nextcloud_php_path: '/usr/bin/php'

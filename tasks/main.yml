@@ -1,0 +1,19 @@
+---
+- name: activate nextcloud maintenance mode
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/occ maintenance:mode --on"
+
+- name: install updates from activated apps
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/occ app:update --all"
+
+- name: run nextcloud updater
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/updater/updater.phar --no-interaction"
+  notify:
+    - db-add-missing-indices
+    - db-convert-filecache-bigint
+
+- name: deactivate nextcloud maintenance mode
+  ansible.builtin.command:
+    cmd: "sudo -u {{ nextcloud_fcgi_user }} {{ nextcloud_php_path }} {{ nextcloud_path }}/occ maintenance:mode --off"
